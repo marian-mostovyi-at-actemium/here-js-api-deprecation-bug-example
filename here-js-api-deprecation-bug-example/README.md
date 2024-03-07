@@ -1,7 +1,7 @@
 # Deprecation bug warning using createDefaultLayers
 
 ## Make it running
-1. Change {your_api_key_here} in app.component.ts to your actual HERE Api Key
+1. Change {your-api-key-here} in app.component.ts to your actual HERE Api Key
 2. run `npm i`
 3. run `npm start`
 
