@@ -6,7 +6,7 @@
 3. run `npm start`
 
 ## Description
-After running application you'll see 2 links - "Create default (with deprecation warning)" and "Create default (with deprecation warning)"
+After running application you'll see 2 links - "Create default (with deprecation warning)" and "Custom layer (no deprecation warning)"
 
 ### Create default (with deprecation warning)
 This page has a map component implemented according to this tutorial: https://www.here.com/docs/bundle/maps-api-for-javascript-developer-guide/page/topics/angular-practices.html#add-a-static-map-component
