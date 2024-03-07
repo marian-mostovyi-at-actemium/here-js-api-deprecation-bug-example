@@ -1,27 +1,58 @@
-# HereJsApiDeprecationBugExample
+# Deprecation bug warning using createDefaultLayers
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.2.5.
+## Make it running
+1. Change {your_api_key_here} in app.component.ts to your actual HERE Api Key
+2. run `npm i`
+3. run `npm start`
 
-## Development server
+## Description
+After running application you'll see 2 links - "Create default (with deprecation warning)" and "Create default (with deprecation warning)"
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+### Create default (with deprecation warning)
+This page has a map component implemented according to this tutorial: https://www.here.com/docs/bundle/maps-api-for-javascript-developer-guide/page/topics/angular-practices.html#add-a-static-map-component
 
-## Code scaffolding
+Only thing changed is base map layer (to raster.satellite.map).
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+```
+const layers = platform.createDefaultLayers();
+const map = new H.Map(
+  this.mapDiv.nativeElement,
+  // Add type assertion to the layers object...
+  // ...to avoid any Type errors during compilation.
+  (layers as any).raster.satellite.base,
+  {
+    pixelRatio: window.devicePixelRatio,
+    center: {lat: 0, lng: 0},
+    zoom: 2,
+  },
+);
+```
 
-## Build
+On map load deprecation warning is shown in console:
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+> [!WARNING]  
+> H.service.MapTileService is deprecated and will be removed soon. Use HERE Vector Tile API or Raster Tile API v3 instead.
 
-## Running unit tests
+### Custom layer (no deprecation warning)
+This page has a map component with manualy created layer using raster tile service. No warning is shown in this case in console.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+```
+const rts = platform.getRasterTileService({
+  queryParams: {
+    'style': 'satellite.day'
+  }
+});
+const rtp = new H.service.rasterTile.Provider(rts);
+const rasterLayer = new H.map.layer.TileLayer(rtp);
+const map = new H.Map(
+  this.mapDiv.nativeElement,
+  // Add type assertion to the layers object...
+  // ...to avoid any Type errors during compilation.
+  rasterLayer,
+  {
+    pixelRatio: window.devicePixelRatio,
+    center: {lat: 0, lng: 0},
+    zoom: 2,
+  },
+);
+```

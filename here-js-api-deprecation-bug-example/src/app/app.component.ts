@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 
+export const HERE_API_KEY = '{your-api-key-here}';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
